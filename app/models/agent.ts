@@ -5,21 +5,27 @@ export enum AgentStatus {
 }
 
 export interface AgentData {
-  name: string;
+  firstName: string;
+  lastName: string;
   status: AgentStatus;
   lastStatusChange: Date;
+  pfpLink: string;
 }
 
 export class Agent {
-  name: string;
+  firstName: string;
+  lastName: string;
   status: AgentStatus;
   lastStatusChange: Date;
+  pfpLink: string;
 
-  constructor(name: string, status: AgentStatus = AgentStatus.Unavailable, lastStatusChange : Date) {
-    if (!name) throw new Error("Agent name is required");
-    this.name = name;
+  constructor(firstName: string, lastName: string, status: AgentStatus = AgentStatus.Unavailable, lastStatusChange : Date, pfpLink: string) {
+    if (!firstName) throw new Error("Agent name is required");
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.status = status;
     this.lastStatusChange = new Date(lastStatusChange);
+    this.pfpLink = pfpLink;
   }
 
   formattedSinceTime(): string {
@@ -47,10 +53,10 @@ export class Agent {
   }
 
   toJSON(): AgentData {
-    return { name: this.name, status: this.status, lastStatusChange: this.lastStatusChange};
+    return { firstName: this.firstName, lastName: this.lastName, status: this.status, lastStatusChange: this.lastStatusChange, pfpLink: this.pfpLink};
   }
 
   static from(data: AgentData) {
-    return new Agent(data.name, data.status, data.lastStatusChange);
+    return new Agent(data.firstName, data.lastName, data.status, data.lastStatusChange, data.pfpLink);
   }
 }

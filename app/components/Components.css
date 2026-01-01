@@ -79,7 +79,12 @@ p {
 }
 
 .fullContainer {
-    
+    display: flex;
+    width: 1130px;
+    height: 657px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .mediumContainer {
@@ -108,6 +113,19 @@ p {
     height: 50px;
     align-items: flex-start;
     flex-shrink: 0;
+    align-self: stretch;
+}
+
+.bigg {
+    height: 75px;
+}
+
+.TabPicFrame {
+    display: flex;
+    width: 75px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     align-self: stretch;
 }
 
