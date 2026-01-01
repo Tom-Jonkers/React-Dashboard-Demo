@@ -1,0 +1,356 @@
+/* TEXTE */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+p {
+    color: #000;
+
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor:default;
+}
+
+.b {
+    font-weight: 600;
+}
+
+.l {
+    color:#0000007e
+}
+
+
+.logo {
+    height: 61.433px;
+    align-self: stretch;
+    aspect-ratio: 50.00/61.43;
+}
+
+.bar {
+    display: flex;
+    width: 90px;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.navButton {
+  display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.50);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navButton:hover {
+    cursor: pointer;
+}
+
+.navButton:active{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.icon {
+    color:#000;
+    height: 32px;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    align-self: stretch;
+}
+
+.CardLook {
+    border-radius: 16px;
+    border: 1px solid #FFF;
+    background: rgba(255, 255, 255, 0.50);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.fullContainer {
+    
+}
+
+.mediumContainer {
+    display: flex;
+    width: 555px;
+    height: 386px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.smallContainer {
+    display: flex;
+    width: 555px;
+    height: 251px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* POUR TABLEAUX */
+
+.TabRow {
+    display: flex;
+    height: 50px;
+    align-items: flex-start;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.TabElt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.ScrollZone {
+    overflow: auto;
+    scrollbar-width:none;
+
+/* Initial mask: top is solid (no fade), bottom is transparent (fade) */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+
+  /* Link the mask change to the scroll position */
+  animation: adjust-mask linear;
+  animation-timeline: scroll(self);
+}
+
+@keyframes adjust-mask {
+  /* At the very top: only bottom is faded */
+  0% {
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  }
+  /* In the middle: both top and bottom are faded */
+  10%, 90% {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  }
+  /* At the very bottom: only top is faded */
+  100% {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+  }
+}
+
+.Divider {
+    width: 100%;
+    height: 1px;
+    background: #000;
+    margin: 8px 0;
+    display: block;
+}
+
+.LightDivider {
+    width: 100%;
+    height: 1px;
+    background: #0000007e;
+    margin: 8px 0;
+    display: block;
+}
+
+/* KPIs */
+
+.KPIs {
+    display: flex;
+    width: 1130px;
+    height: 115px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.KPIelt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.KPIval {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 24px */
+}
+
+
+/* Alertes */
+
+.alertContainer {
+    display: flex;
+    width: 555px;
+    height: 251px;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.alertList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    flex: 1 0 0;
+}
+
+.noAlerts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.alertBox {
+    display: flex;
+    width: 515px;
+    height: 68px;
+    padding: 20px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.50);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.emoji {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiSymbols", system-ui;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+}
+
+/* ChannelDist */
+
+.graphSpace {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.graph {
+    display: flex;
+    width: 500px;
+    height: 64px;
+    align-items: flex-start;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.graphR {
+    display: flex;
+    width: 0px;
+
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    background: #D83636;
+}
+
+.graphG {
+    display: flex;
+    width: 0px;
+
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    background: #36D859;
+}
+
+.graphB {
+    display: flex;
+    width: 0px;
+
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    background: #32BCE2;
+}
+
+.valeurs {
+    display: flex;
+    width: 499px;
+    height: 41px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.valElt {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.valR {
+    width: 21px;
+    height: 21px;
+    border-radius: 16px;
+    background: #D83636;
+}
+
+.valG {
+    width: 21px;
+    height: 21px;
+    border-radius: 16px;
+    background: #36D859;
+}
+
+.valB {
+    width: 21px;
+    height: 21px;
+    border-radius: 16px;
+    background: #32BCE2;
+}
+
+.percentage {
+    color: #FFF;
+
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
