@@ -47,7 +47,7 @@ export default function AgentList({ agents: remoteAgents }: { agents?: any[] | n
         {agents.map((item, index) => (
                 <React.Fragment key={index}>
                 <div className="TabRow">
-                    <div className="TabElt"><p>{item.name}</p></div>
+                    <div className="TabElt"><p>{item.firstName}</p></div>
                     <div className="TabElt"><p>{item.getFancyFrStatus()}</p></div>
                     <div className="TabElt"><p>{item.formattedSinceTime()}</p></div>
                 </div>

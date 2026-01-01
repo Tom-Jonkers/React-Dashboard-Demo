@@ -51,7 +51,7 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
         {agents.map((item, index) => (
                 <React.Fragment key={index}>
                 <div className="TabRow bigg">
-                    <div className="TabPicFrame"><img src=""/></div>
+                    <div className="TabPicFrame"><img className="TabPic" src={item.pfpLink}/></div>
                     <div className="TabElt"><p>{item.firstName}</p></div>
                     <div className="TabElt"><p>{item.lastName}</p></div>
                     <div className="TabElt"><p>{item.getFancyFrStatus()}</p></div>
