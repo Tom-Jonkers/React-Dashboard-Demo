@@ -1,25 +1,19 @@
 "use client";
 import "./Components.css"
 import { Agent, AgentStatus } from "../models/agent"
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function AgentListDetailed({ agents: remoteAgents }: { agents?: any[] | null }) {
 
+    const [sort, setSort] = useState("status")
+    const [ascending, setAscending] = useState(true)
+    const [agents, setAgents] = useState(remoteAgents != null ? remoteAgents.map(a => (typeof (a as any).toJSON === "function" ? (a as Agent) : Agent.from(a))) : [])
 
-    const agents = useMemo(() => {
-
-        const statusRank: Record<AgentStatus, number> = {
-                    [AgentStatus.Available]: 0,
-                    [AgentStatus.Call]: 1,
-                    [AgentStatus.Unavailable]: 2,
-                  };
-
-      const mapped: Agent[] = (!remoteAgents || remoteAgents.length === 0)
-                  ? []
-                  : remoteAgents.map(a => (typeof (a as any).toJSON === "function" ? (a as Agent) : Agent.from(a)));
-
-      return mapped.slice().sort((a, b) => statusRank[a.status] - statusRank[b.status])
-    }, [remoteAgents, []]);
+    const statusRank: Record<AgentStatus, number> = {
+        [AgentStatus.Available]: 0,
+        [AgentStatus.Call]: 1,
+        [AgentStatus.Unavailable]: 2
+    };
 
     // tick state to trigger a re-render every second
       const [, setTick] = useState(0);
@@ -28,22 +22,43 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
         return () => clearInterval(id);
       }, []);
 
+      useEffect(() => {
+      if (!sort) return;
+      sortAgents(sort, ascending);
+    }, [sort, ascending]);
+
   return (
     <div className="CardLook fullContainer">
         <p className="b">Liste des agents</p>
         <div className="TabRow bigg">
             <div className="TabPicFrame"/>
             <div className="TabElt">
-                <p className="b">Prénom</p>
+                <p onClick={() => changeSort("firstName")} className="b TabPropText">Prénom</p>
+                {(sort == "firstName") ? 
+                    <img className="icon"
+                     src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
+                : <></>}
             </div>
             <div className="TabElt">
-                <p className="b">Nom</p>
+                <p onClick={() => changeSort("lastName")} className="b TabPropText">Nom</p>
+                {(sort == "lastName") ? 
+                    <img className="icon"
+                     src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
+                : <></>}
             </div>
             <div className="TabElt">
-                <p className="b">Statut</p>
+                <p onClick={() => changeSort("status")} className="b TabPropText">Statut</p>
+                {(sort == "status") ? 
+                    <img className="icon"
+                     src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
+                : <></>}
             </div>
             <div className="TabElt">
-                <p className="b">Depuis</p>
+                <p onClick={() => changeSort("lastUpdate")} className="b TabPropText">Depuis</p>
+                {(sort == "lastUpdate") ? 
+                    <img className="icon"
+                     src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
+                : <></>}
             </div>
         </div>
         <div className={(agents.length > 4) ? "ScrollZone width100" : "width100"}>
@@ -63,4 +78,44 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
         </div>
     </div>
   );
+
+   function changeSort(type: string) {
+
+    // Change sort order if user simply clicked on the sort option again
+    if (sort == type)
+        setAscending(!ascending)
+    else
+        setAscending(true)
+
+    // Change sort type
+    setSort(type)
+  }
+
+  function sortAgents(currentSort: string, currentAscending: boolean) {
+    setAgents(prev => {
+        if (!currentSort) return prev;
+        let sorted = prev.slice();
+        switch (currentSort) {
+            case "firstName":
+                sorted = sorted.sort((a,b) => a.firstName.localeCompare(b.firstName));
+                break;
+            case "lastName":
+                sorted = sorted.sort((a,b) => a.lastName.localeCompare(b.lastName));
+                break;
+            case "status":
+                sorted = sorted.slice().sort((a, b) => statusRank[a.status] - statusRank[b.status]);
+                break;
+            case "lastUpdate":
+                sorted = sorted.slice().sort((a, b) => b.lastStatusChange.getTime() - a.lastStatusChange.getTime());
+                break;
+            default:
+                return prev;
+        }
+        if (!currentAscending) sorted = sorted.reverse();
+        return sorted;
+    });
+  }
+
+  
+
 }

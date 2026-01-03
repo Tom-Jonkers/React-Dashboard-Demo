@@ -8,6 +8,7 @@ function randChoice<T>(arr: T[]) {
 
 export async function GET(request: Request) {
   const statuses = [AgentStatus.Available, AgentStatus.Call, AgentStatus.Unavailable];
+  let sortType = ""
 
   let agents: Agent[] = []
   const nbAgents = Math.floor(Math.random() * 15) + 1

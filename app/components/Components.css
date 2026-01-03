@@ -41,6 +41,7 @@ p {
 .navButton {
   display: flex;
     height: 50px;
+    width: 50px;
     justify-content: center;
     align-items: center;
     align-self: stretch;
@@ -134,7 +135,7 @@ p {
     height: 50px;
     flex-shrink: 0;
     aspect-ratio: 1/1;
-    border-radius: 39px;
+    border-radius: 25px;
 }
 
 .TabElt {
@@ -147,6 +148,11 @@ p {
 
 .width100 {
     width: 100%;
+}
+
+.TabPropText {
+    cursor: pointer;
+    user-select: none;
 }
 
 .ScrollZone {
