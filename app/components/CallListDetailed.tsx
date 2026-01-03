@@ -1,18 +1,19 @@
 "use client";
 import "./Components.css"
-import { Agent, AgentStatus } from "../models/agent"
 import React, { useEffect, useState } from "react";
+import { Call, Priority } from "../models/call";
 
-export default function AgentListDetailed({ agents: remoteAgents }: { agents?: any[] | null }) {
+export default function CallListDetailed({ calls: remoteCallss }: { calls?: any[] | null }) {
 
-    const [sort, setSort] = useState("status")
+    const [sort, setSort] = useState("priority")
     const [ascending, setAscending] = useState(true)
-    const [agents, setAgents] = useState(remoteAgents != null ? remoteAgents.map(a => (typeof (a as any).toJSON === "function" ? (a as Agent) : Agent.from(a))) : [])
+    const [calls, setCalls] = useState(remoteCallss != null ? remoteCallss.map(a => (typeof (a as any).toJSON === "function" ? (a as Call) : Call.from(a))) : [])
 
-    const statusRank: Record<AgentStatus, number> = {
-        [AgentStatus.Available]: 0,
-        [AgentStatus.Call]: 1,
-        [AgentStatus.Unavailable]: 2
+    const priorityRank: Record<Priority, number> = {
+        [Priority.Critical]: 0,
+        [Priority.High]: 1,
+        [Priority.Medium]: 2,
+        [Priority.Low]: 3
     };
 
     // tick state to trigger a re-render every second
@@ -24,55 +25,53 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
 
       useEffect(() => {
       if (!sort) return;
-      sortAgents(sort, ascending);
+      sortCalls(sort, ascending);
     }, [sort, ascending]);
 
   return (
     <div className="CardLook fullContainer">
         <p className="b">Liste des agents</p>
         <div className="TabRow bigg">
-            <div className="TabPicFrame"/>
             <div className="TabElt">
-                <p onClick={() => changeSort("firstName")} className="b TabPropText">Prénom</p>
-                {(sort == "firstName") ? 
+                <p onClick={() => changeSort("number")} className="b TabPropText">Numéro</p>
+                {(sort == "number") ? 
                     <img className="icon"
                      src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
                 : <></>}
             </div>
             <div className="TabElt">
-                <p onClick={() => changeSort("lastName")} className="b TabPropText">Nom</p>
-                {(sort == "lastName") ? 
+                <p onClick={() => changeSort("channel")} className="b TabPropText">Canal</p>
+                {(sort == "channel") ? 
                     <img className="icon"
                      src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
                 : <></>}
             </div>
             <div className="TabElt">
-                <p onClick={() => changeSort("status")} className="b TabPropText">Statut</p>
-                {(sort == "status") ? 
+                <p onClick={() => changeSort("waitTime")} className="b TabPropText">Attente</p>
+                {(sort == "waitTime") ? 
                     <img className="icon"
                      src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
                 : <></>}
             </div>
             <div className="TabElt">
-                <p onClick={() => changeSort("lastUpdate")} className="b TabPropText">Depuis</p>
-                {(sort == "lastUpdate") ? 
+                <p onClick={() => changeSort("priority")} className="b TabPropText">Priorité</p>
+                {(sort == "priority") ? 
                     <img className="icon"
                      src={(ascending == true) ? "../chevron-up-solid-full.svg" : "../chevron-down-solid-full.svg"}/> 
                 : <></>}
             </div>
         </div>
-        <div className={(agents.length > 5) ? "ScrollZone width100" : "width100"}>
+        <div className={(calls.length > 5) ? "ScrollZone width100" : "width100"}>
         <div className="Divider"></div>
-        {agents.map((item, index) => (
+        {calls.map((item, index) => (
                 <React.Fragment key={index}>
                 <div className="TabRow bigg">
-                    <div className="TabPicFrame"><img className="TabPic" src={item.pfpLink}/></div>
-                    <div className="TabElt"><p>{item.firstName}</p></div>
-                    <div className="TabElt"><p>{item.lastName}</p></div>
-                    <div className="TabElt"><p>{item.getFancyFrStatus()}</p></div>
-                    <div className="TabElt"><p>{item.formattedSinceTime()}</p></div>
+                    <div className="TabElt"><p>{item.number}</p></div>
+                    <div className="TabElt"><p>{item.getFancyFrChannel()}</p></div>
+                    <div className="TabElt"><p>{item.formattedWaitTime()}</p></div>
+                    <div className="TabElt"><p>{item.getFancyFrPriority()}</p></div>
                 </div>
-                {index < agents.length - 1 && <div className="LightDivider"></div>}
+                {index < calls.length - 1 && <div className="LightDivider"></div>}
             </React.Fragment>
         ))}
         </div>
@@ -91,22 +90,22 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
     setSort(type)
   }
 
-  function sortAgents(currentSort: string, currentAscending: boolean) {
-    setAgents(prev => {
+  function sortCalls(currentSort: string, currentAscending: boolean) {
+    setCalls(prev => {
         if (!currentSort) return prev;
         let sorted = prev.slice();
         switch (currentSort) {
-            case "firstName":
-                sorted = sorted.sort((a,b) => a.firstName.localeCompare(b.firstName));
+            case "number":
+                sorted = sorted.sort((a,b) => a.number.localeCompare(b.number));
                 break;
-            case "lastName":
-                sorted = sorted.sort((a,b) => a.lastName.localeCompare(b.lastName));
+            case "channel":
+                sorted = sorted.sort((a,b) => a.channel.localeCompare(b.channel));
                 break;
-            case "status":
-                sorted = sorted.slice().sort((a, b) => statusRank[a.status] - statusRank[b.status]);
+            case "waitTime":
+                sorted = sorted.slice().sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
                 break;
-            case "lastUpdate":
-                sorted = sorted.slice().sort((a, b) => b.lastStatusChange.getTime() - a.lastStatusChange.getTime());
+            case "priority":
+                sorted = sorted.slice().sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority]);
                 break;
             default:
                 return prev;

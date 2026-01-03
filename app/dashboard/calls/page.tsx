@@ -1,8 +1,12 @@
+"use client";
+import CallListDetailed from "@/app/components/CallListDetailed";
+import { useDashboard } from "../DashboardContext";
+
 export default function CallsPage() {
+
+  const { calls } = useDashboard()
+
   return (
-    <div>
-      <h1>Calls</h1>
-      <p>Placeholder page — add CallList or other UI here.</p>
-    </div>
+    <CallListDetailed calls={calls}/>
   );
 }

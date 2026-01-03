@@ -4,7 +4,7 @@ import { useDashboard } from "../DashboardContext";
 
 export default function AgentsPage() {
 
-  const { agents, setAgents, calls, setCalls, alerts, setAlerts } = useDashboard()
+  const { agents } = useDashboard()
 
   return (
     <AgentListDetailed agents={agents}/>
