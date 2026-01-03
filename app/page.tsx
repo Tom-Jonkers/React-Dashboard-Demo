@@ -7,8 +7,9 @@ export default function Home() {
   redirect("/dashboard/homepage");
   
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <Homepage />
+    <div>
+      <Homepage />  
+      {/* style={{ minHeight: "100vh" }} */}
     </div>
   );
 }

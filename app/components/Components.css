@@ -156,7 +156,7 @@ p {
 }
 
 .ScrollZone {
-    overflow: auto;
+    overflow:auto;
     scrollbar-width:none;
 
 /* Initial mask: top is solid (no fade), bottom is transparent (fade) */
@@ -244,6 +244,7 @@ p {
     align-items: center;
     gap: 15px;
     flex: 1 0 0;
+    padding-bottom: 10px;
 }
 
 .noAlerts {
