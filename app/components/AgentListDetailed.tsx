@@ -16,16 +16,42 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
     };
 
     // tick state to trigger a re-render every second
-      const [, setTick] = useState(0);
-      useEffect(() => {
+    const [, setTick] = useState(0);
+    useEffect(() => {
         const id = setInterval(() => setTick(t => t + 1), 1000);
         return () => clearInterval(id);
-      }, []);
+    }, []);
 
+    // keep local agents in sync with remoteAgents and apply current sort
       useEffect(() => {
-      if (!sort) return;
-      sortAgents(sort, ascending);
-    }, [sort, ascending]);
+        if (!remoteAgents || remoteAgents.length === 0) {
+          setAgents([]);
+          return;
+        }
+
+        const mapped: Agent[] = remoteAgents.map(a => (typeof (a as any).toJSON === "function" ? (a as Agent) : Agent.from(a)));
+        let sorted = mapped.slice();
+
+        switch (sort) {
+          case "firstName":
+            sorted = sorted.sort((a,b) => a.firstName.localeCompare(b.firstName));
+            break;
+          case "lastName":
+            sorted = sorted.sort((a,b) => a.lastName.localeCompare(b.lastName));
+            break;
+          case "status":
+            sorted = sorted.sort((a, b) => statusRank[a.status] - statusRank[b.status]);
+            break;
+          case "lastUpdate":
+            sorted = sorted.sort((a, b) => b.lastStatusChange.getTime() - a.lastStatusChange.getTime());
+            break;
+        }
+
+        if (!ascending) sorted = sorted.reverse();
+        setAgents(sorted);
+      }, [remoteAgents, sort, ascending]);
+
+
 
   return (
     <div className="CardLook fullContainer">
@@ -90,32 +116,5 @@ export default function AgentListDetailed({ agents: remoteAgents }: { agents?: a
     // Change sort type
     setSort(type)
   }
-
-  function sortAgents(currentSort: string, currentAscending: boolean) {
-    setAgents(prev => {
-        if (!currentSort) return prev;
-        let sorted = prev.slice();
-        switch (currentSort) {
-            case "firstName":
-                sorted = sorted.sort((a,b) => a.firstName.localeCompare(b.firstName));
-                break;
-            case "lastName":
-                sorted = sorted.sort((a,b) => a.lastName.localeCompare(b.lastName));
-                break;
-            case "status":
-                sorted = sorted.slice().sort((a, b) => statusRank[a.status] - statusRank[b.status]);
-                break;
-            case "lastUpdate":
-                sorted = sorted.slice().sort((a, b) => b.lastStatusChange.getTime() - a.lastStatusChange.getTime());
-                break;
-            default:
-                return prev;
-        }
-        if (!currentAscending) sorted = sorted.reverse();
-        return sorted;
-    });
-  }
-
-  
 
 }

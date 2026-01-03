@@ -3,11 +3,11 @@ import "./Components.css"
 import React, { useEffect, useState } from "react";
 import { Call, Priority } from "../models/call";
 
-export default function CallListDetailed({ calls: remoteCallss }: { calls?: any[] | null }) {
+export default function CallListDetailed({ calls: remoteCalls }: { calls?: any[] | null }) {
 
     const [sort, setSort] = useState("priority")
     const [ascending, setAscending] = useState(true)
-    const [calls, setCalls] = useState(remoteCallss != null ? remoteCallss.map(a => (typeof (a as any).toJSON === "function" ? (a as Call) : Call.from(a))) : [])
+    const [calls, setCalls] = useState(remoteCalls != null ? remoteCalls.map(a => (typeof (a as any).toJSON === "function" ? (a as Call) : Call.from(a))) : [])
 
     const priorityRank: Record<Priority, number> = {
         [Priority.Critical]: 0,
@@ -24,9 +24,32 @@ export default function CallListDetailed({ calls: remoteCallss }: { calls?: any[
       }, []);
 
       useEffect(() => {
-      if (!sort) return;
-      sortCalls(sort, ascending);
-    }, [sort, ascending]);
+              if (!remoteCalls || remoteCalls.length === 0) {
+                setCalls([]);
+                return;
+              }
+      
+              const mapped: Call[] = remoteCalls.map(a => (typeof (a as any).toJSON === "function" ? (a as Call) : Call.from(a)));
+              let sorted = mapped.slice();
+      
+              switch (sort) {
+            case "number":
+                sorted = sorted.sort((a,b) => a.number.localeCompare(b.number));
+                break;
+            case "channel":
+                sorted = sorted.sort((a,b) => a.channel.localeCompare(b.channel));
+                break;
+            case "waitTime":
+                sorted = sorted.slice().sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
+                break;
+            case "priority":
+                sorted = sorted.slice().sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority]);
+                break;
+        }
+        if (!ascending) sorted = sorted.reverse();
+        setCalls(sorted);
+      }, [remoteCalls, sort, ascending]);
+
 
   return (
     <div className="CardLook fullContainer">

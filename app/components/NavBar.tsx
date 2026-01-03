@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import "./Components.css"
+import { useDashboard } from "../dashboard/DashboardContext";
 
 type NavBarProps = {
   setAgents?: (a: any[] | null) => void;
@@ -10,6 +11,8 @@ type NavBarProps = {
 };
 
 export default function NavBar({ setAgents, setCalls, setAlerts }: NavBarProps) {
+
+  const dashboard = useDashboard()
 
   useEffect(() => {
     refresh()

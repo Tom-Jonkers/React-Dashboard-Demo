@@ -19,7 +19,7 @@ export default function AgentList({ agents: remoteAgents }: { agents?: any[] | n
                   : remoteAgents.map(a => (typeof (a as any).toJSON === "function" ? (a as Agent) : Agent.from(a)));
 
       return mapped.slice().sort((a, b) => statusRank[a.status] - statusRank[b.status])
-    }, [remoteAgents, []]);
+    }, [remoteAgents]);
 
     // tick state to trigger a re-render every second
       const [, setTick] = useState(0);
