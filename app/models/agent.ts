@@ -32,9 +32,11 @@ export class Agent {
     const diffMs = Date.now() - this.lastStatusChange.getTime();
     const totalSec = Math.max(0, Math.floor(diffMs / 1000));
     const hh = Math.floor(totalSec / 3600);
-    const mm = Math.floor((totalSec % 3600) / 60)
-      .toString()
-      .padStart(1, "0");
+    let mm = Math.floor((totalSec % 3600) / 60).toString()
+    if (Number.parseInt(mm) < 10 && hh > 0)
+    {
+      mm = "0" + mm
+    }
     const ss = (totalSec % 60).toString().padStart(2, "0");
     return hh > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
   }
