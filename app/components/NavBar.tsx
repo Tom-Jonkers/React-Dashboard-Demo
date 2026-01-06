@@ -41,7 +41,7 @@ export default function NavBar({ setAgents, setCalls, setAlerts }: NavBarProps) 
 
   return (
     <div className="bar CardLook">
-        <img className="logo" src="../paxyl.png"/>
+        <Link className="navButton" href="/dashboard/about"><img className="icon" src="../information-button.png"/></Link>
         <div className="buttonGroup">
           <Link className="navButton" href="/dashboard/homepage"><img className="icon" src="../house-solid-full.svg"/></Link>
           <Link className="navButton" href="/dashboard/agents"><img className="icon" src="../headset-solid-full.svg"/></Link>
