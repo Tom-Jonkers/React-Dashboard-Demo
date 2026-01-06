@@ -1,10 +1,11 @@
 "use client";
-import AgentListDetailed from "@/app/components/AgentListDetailed";
-import { useDashboard } from "../DashboardContext";
+
+import About from "@/app/components/About";
+
 
 export default function AboutPage() {
   return (
-    <p>about page wowzers</p>
+    <About/>
   );
 }
 
